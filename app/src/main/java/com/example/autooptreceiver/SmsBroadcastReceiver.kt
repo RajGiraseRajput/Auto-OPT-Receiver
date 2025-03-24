@@ -25,13 +25,13 @@ class SmsBroadcastReceiver : BroadcastReceiver() {
                 for (pdu in pdus) {
                     val sms = SmsMessage.createFromPdu(pdu as ByteArray)
                     val messageBody = sms.messageBody
-                    Log.d("OTP", "📩 Received SMS: $messageBody")
+                    Log.d("OTP", " Received SMS: $messageBody")
 
                     val otpPattern = Pattern.compile("\\b\\d{6}\\b")
                     val matcher = otpPattern.matcher(messageBody)
                     if (matcher.find()) {
                         val otp = matcher.group()
-                        Log.d("OTP", "🔢 Extracted OTP: $otp")
+                        Log.d("OTP", " Extracted OTP: $otp")
                         Toast.makeText(context, "OTP: $otp", Toast.LENGTH_SHORT).show()
                         otpListener?.onOTPReceived(otp)
                     }

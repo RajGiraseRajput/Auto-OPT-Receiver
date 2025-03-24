@@ -1,26 +1,25 @@
 package com.example.autooptreceiver
 
 import android.Manifest
-import android.app.Activity
-import android.content.Intent
 import android.content.IntentFilter
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.google.android.gms.auth.api.phone.SmsRetriever
+import com.example.autooptreceiver.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity(), SmsBroadcastReceiver.OTPListener {
 
     private lateinit var smsReceiver: SmsBroadcastReceiver
+    private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         // Request SMS permissions
         ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS), 1)
 
@@ -29,6 +28,25 @@ class MainActivity : AppCompatActivity(), SmsBroadcastReceiver.OTPListener {
         smsReceiver.otpListener = this
         val filter = IntentFilter("android.provider.Telephony.SMS_RECEIVED")
         registerReceiver(smsReceiver, filter)
+
+
+        val clickListener = { view: android.view.View ->
+            when (view) {
+                binding.text1 -> Toast.makeText(this, "Text 1", Toast.LENGTH_SHORT).show()
+                binding.text2 -> Toast.makeText(this, "Text 2", Toast.LENGTH_SHORT).show()
+                binding.text3 -> Toast.makeText(this, "Text 3", Toast.LENGTH_SHORT).show()
+                binding.text4 -> Toast.makeText(this, "Text 4", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Assign the same listener to all views
+        binding.text1.setOnClickListener(clickListener)
+        binding.text2.setOnClickListener(clickListener)
+        binding.text3.setOnClickListener(clickListener)
+        binding.text4.setOnClickListener(clickListener)
+
+
+
     }
 
     override fun onOTPReceived(otp: String) {
