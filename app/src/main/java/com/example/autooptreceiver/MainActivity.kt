@@ -1,9 +1,12 @@
 package com.example.autooptreceiver
 
 import android.Manifest
+import android.content.Intent
 import android.content.IntentFilter
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -18,6 +21,9 @@ class MainActivity : AppCompatActivity(), SmsBroadcastReceiver.OTPListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(item.getUrl()))
+//        context.startActivity(intent)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         // Request SMS permissions
@@ -30,7 +36,7 @@ class MainActivity : AppCompatActivity(), SmsBroadcastReceiver.OTPListener {
         registerReceiver(smsReceiver, filter)
 
 
-        val clickListener = { view: android.view.View ->
+        val clickListener = { view: View ->
             when (view) {
                 binding.text1 -> Toast.makeText(this, "Text 1", Toast.LENGTH_SHORT).show()
                 binding.text2 -> Toast.makeText(this, "Text 2", Toast.LENGTH_SHORT).show()
@@ -51,7 +57,7 @@ class MainActivity : AppCompatActivity(), SmsBroadcastReceiver.OTPListener {
 
     override fun onOTPReceived(otp: String) {
         Toast.makeText(this, "Received OTP: $otp", Toast.LENGTH_LONG).show()
-        Log.d("OTP", "Received OTP: $otp ✅")
+        Log.d("OTP", "Received OTP: $otp ")
     }
 
     override fun onDestroy() {
